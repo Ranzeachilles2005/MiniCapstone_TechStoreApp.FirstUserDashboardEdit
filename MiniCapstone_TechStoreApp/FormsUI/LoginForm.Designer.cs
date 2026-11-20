@@ -28,35 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.test = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.SuspendLayout();
-            // 
-            // test
-            // 
-            this.test.Location = new System.Drawing.Point(12, 12);
-            this.test.Multiline = true;
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(495, 309);
-            this.test.TabIndex = 0;
-            this.test.Text = "kryptonTextBox1";
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(519, 333);
-            this.Controls.Add(this.test);
             this.Name = "LoginForm";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox test;
     }
 }
 

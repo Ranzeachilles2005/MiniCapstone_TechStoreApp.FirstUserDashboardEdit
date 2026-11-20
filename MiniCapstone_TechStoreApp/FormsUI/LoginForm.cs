@@ -16,7 +16,6 @@ namespace MiniCapstone_TechStoreApp
         public LoginForm()
         {
             InitializeComponent();
-            MongoDBConnector.TestDB(test);
         }
 
         private void LoginForm_Load(object sender, EventArgs e)

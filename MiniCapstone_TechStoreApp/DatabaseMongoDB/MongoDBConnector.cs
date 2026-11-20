@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using MiniCapstone_TechStoreApp.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -7,98 +8,81 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
 
 namespace MiniCapstone_TechStoreApp.DatabaseMongoDB
 {
-    public static class MongoDBConnector
+    public class MongoDBConnector
     {
-        private static readonly string connectionString =
-            Environment.GetEnvironmentVariable(
-                "MINICAPSTONE_MONGODB_CONNECTIONSTRING"
-            ) ?? throw new InvalidOperationException(
-                "MongoDB connection string not found!"
-            );
-
-        private static readonly MongoClient client = new MongoClient(connectionString);
-
-        public static IMongoDatabase Database = client.GetDatabase("TechStoreDB");
-
-        public static IMongoCollection<T> GetCollection<T>(string collectionName)
+        private IMongoDatabase database;
+        public MongoDBConnector()
         {
-            return Database.GetCollection<T>(collectionName);
+            string connectionString = Environment.GetEnvironmentVariable("MINICAPSTONE_MONGODB_CONNECTIONSTRING");
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new Exception("MongoDB connection string is missing.");
+            }
+
+            MongoClient client = new MongoClient(connectionString);
+
+            database = client.GetDatabase("TechStoreDB");
         }
 
-        public static void TestDB(KryptonTextBox textBox)
+        public IMongoCollection<UserDB> Users
         {
-            try
-            {
-                StringBuilder output = new StringBuilder();
-
-                // Get all databases
-                var databases = MongoDBConnector.client
-                    .ListDatabaseNames()
-                    .ToList();
-
-                output.AppendLine("========== MONGODB DATABASE TEST ==========");
-                output.AppendLine();
-
-                foreach (string databaseName in databases)
-                {
-                    output.AppendLine("DATABASE: " + databaseName);
-                    output.AppendLine("-------------------------------------------");
-
-                    var database = MongoDBConnector.client
-                        .GetDatabase(databaseName);
-
-                    // Get all collections
-                    var collections = database
-                        .ListCollectionNames()
-                        .ToList();
-
-                    if (collections.Count == 0)
-                    {
-                        output.AppendLine("  No collections found.");
-                        output.AppendLine();
-                        continue;
-                    }
-
-                    foreach (string collectionName in collections)
-                    {
-                        output.AppendLine();
-                        output.AppendLine("  COLLECTION: " + collectionName);
-                        output.AppendLine("  --------------------------------");
-
-                        var collection = database
-                            .GetCollection<BsonDocument>(collectionName);
-
-                        // Retrieve all documents
-                        var documents = collection
-                            .Find(FilterDefinition<BsonDocument>.Empty)
-                            .ToList();
-
-                        output.AppendLine(
-                            "  Total Documents: " + documents.Count
-                        );
-
-                        if (documents.Count == 0)
-                        {
-                            output.AppendLine("  No documents found.");
-                            continue;
-                        }
-                    }
-
-                    output.AppendLine();
-                }
-
-                output.AppendLine("========== END OF DATABASE TEST ==========");
-
-                textBox.Text = output.ToString();
+            get 
+            { 
+                return database.GetCollection<UserDB>("Users"); 
             }
-            catch (Exception ex)
+        }
+
+        public IMongoCollection<EmailVerification> EmailVerifications
+        {
+            get
             {
-                textBox.Text = "MONGODB ERROR:\r\n\r\n" + ex;
+                return database.GetCollection<EmailVerification>("EmailVerifications");
             }
+        }
+
+        public async Task CreateIndexesAsync()
+        {
+            // Prevent duplicate user email addresses.
+            CreateIndexOptions userEmailOptions =
+                new CreateIndexOptions { Unique = true };
+
+            IndexKeysDefinition<UserDB> userEmailIndex =
+                Builders<UserDB>.IndexKeys.Ascending(x => x.Email);
+
+            await Users.Indexes.CreateOneAsync(
+                new CreateIndexModel<UserDB>(
+                    userEmailIndex,
+                    userEmailOptions));
+
+            // One verification document per email address.
+            CreateIndexOptions verificationOptions =
+                new CreateIndexOptions { Unique = true };
+
+            IndexKeysDefinition<EmailVerification> verificationIndex =
+                Builders<EmailVerification>.IndexKeys.Ascending(
+                    x => x.Email);
+
+            await EmailVerifications.Indexes.CreateOneAsync(
+                new CreateIndexModel<EmailVerification>(
+                    verificationIndex,
+                    verificationOptions));
+
+            // Automatically remove expired verification documents.
+            IndexKeysDefinition<EmailVerification> expiryIndex =
+                Builders<EmailVerification>.IndexKeys.Ascending(
+                    x => x.ExpiresAt);
+
+            CreateIndexOptions expiryOptions =
+                new CreateIndexOptions { ExpireAfter = TimeSpan.Zero };
+
+            await EmailVerifications.Indexes.CreateOneAsync(
+                new CreateIndexModel<EmailVerification>(
+                    expiryIndex,
+                    expiryOptions));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MiniCapstone_TechStoreApp.DatabaseMongoDB;
+using MiniCapstone_TechStoreApp.Services;
+using MiniCapstone_TechStoreApp.FormsUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +19,33 @@ namespace MiniCapstone_TechStoreApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+
+            try
+            {
+                MongoDBConnector db = new MongoDBConnector();
+
+                // Create indexes before showing the application.
+                db.CreateIndexesAsync().GetAwaiter().GetResult();
+
+                EmailService emailService = new EmailService();
+
+                EmailVerificationService verificationService =
+                    new EmailVerificationService(db, emailService);
+
+                AuthenticatorService authService =
+                    new AuthenticatorService(db, verificationService);
+
+                Application.Run(
+                    new RegistrationForm(authService));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Startup Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }
