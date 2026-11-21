@@ -28,35 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.test = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
+            this.airForm1 = new ReaLTaiizor.Forms.AirForm();
             this.SuspendLayout();
             // 
-            // test
+            // airForm1
             // 
-            this.test.Location = new System.Drawing.Point(12, 12);
-            this.test.Multiline = true;
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(495, 309);
-            this.test.TabIndex = 0;
-            this.test.Text = "kryptonTextBox1";
+            this.airForm1.BackColor = System.Drawing.Color.White;
+            this.airForm1.BorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.airForm1.Customization = "AAAA/1paWv9ycnL/";
+            this.airForm1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.airForm1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.airForm1.Image = null;
+            this.airForm1.Location = new System.Drawing.Point(0, 0);
+            this.airForm1.MinimumSize = new System.Drawing.Size(112, 35);
+            this.airForm1.Movable = true;
+            this.airForm1.Name = "airForm1";
+            this.airForm1.NoRounding = false;
+            this.airForm1.Sizable = true;
+            this.airForm1.Size = new System.Drawing.Size(519, 333);
+            this.airForm1.SmartBounds = true;
+            this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
+            this.airForm1.TabIndex = 0;
+            this.airForm1.Text = "airForm1";
+            this.airForm1.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.airForm1.Transparent = false;
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(519, 333);
-            this.Controls.Add(this.test);
+            this.Controls.Add(this.airForm1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "LoginForm";
             this.Text = "Login";
+            this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox test;
+        private ReaLTaiizor.Forms.AirForm airForm1;
     }
 }
 
