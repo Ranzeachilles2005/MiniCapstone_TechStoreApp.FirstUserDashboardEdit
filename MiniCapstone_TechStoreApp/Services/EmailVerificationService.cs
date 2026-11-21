@@ -10,25 +10,19 @@ namespace MiniCapstone_TechStoreApp.Services
 {
     public class EmailVerificationService
     {
-        private readonly MongoDBConnector _db;
-        private readonly EmailService _emailService;
-        private readonly string _hmacSecret;
+        private readonly MongoDBConnector db;
+        private readonly EmailService emailService;
+        private readonly string hmacSecret;
 
-        public EmailVerificationService(
-            MongoDBConnector db,
-            EmailService emailService)
+        public EmailVerificationService(MongoDBConnector db, EmailService emailService)
         {
-            _db = db;
-            _emailService = emailService;
+            this.db = db;
+            this.emailService = emailService;
+            hmacSecret = Environment.GetEnvironmentVariable("OTP_HMAC_SECRET");
 
-            _hmacSecret =
-                Environment.GetEnvironmentVariable("OTP_HMAC_SECRET");
-
-            if (string.IsNullOrWhiteSpace(_hmacSecret) ||
-                Encoding.UTF8.GetByteCount(_hmacSecret) < 32)
+            if (string.IsNullOrWhiteSpace(hmacSecret) || Encoding.UTF8.GetByteCount(hmacSecret) < 32)
             {
-                throw new Exception(
-                    "OTP_HMAC_SECRET must contain at least 32 bytes.");
+                throw new Exception("OTP_HMAC_SECRET must contain at least 32 bytes.");
             }
         }
 
@@ -40,8 +34,7 @@ namespace MiniCapstone_TechStoreApp.Services
             uint value;
             uint limit = 4294000000;
 
-            using (RandomNumberGenerator rng =
-                RandomNumberGenerator.Create())
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 do
                 {
@@ -52,20 +45,18 @@ namespace MiniCapstone_TechStoreApp.Services
             }
 
             int codeNumber = (int)(value % 1000000);
-
             return codeNumber.ToString("D6");
         }
 
         // Hashes the OTP using a secret key.
         private string HashCode(string code)
         {
-            byte[] key = Encoding.UTF8.GetBytes(_hmacSecret);
+            byte[] key = Encoding.UTF8.GetBytes(hmacSecret);
             byte[] data = Encoding.UTF8.GetBytes(code);
 
             using (HMACSHA256 hmac = new HMACSHA256(key))
             {
                 byte[] hash = hmac.ComputeHash(data);
-
                 return Convert.ToBase64String(hash);
             }
         }
@@ -76,23 +67,17 @@ namespace MiniCapstone_TechStoreApp.Services
 
             DateTime now = DateTime.UtcNow;
 
-            EmailVerification existing =
-                await _db.EmailVerifications
-                    .Find(x => x.Email == email)
-                    .FirstOrDefaultAsync();
+            EmailVerification existing = await db.EmailVerifications.Find(x => x.Email == email).FirstOrDefaultAsync();
 
             // Prevent sending another code within 60 seconds.
-            if (existing != null &&
-                existing.LastSentAt.AddSeconds(60) > now)
+            if (existing != null && existing.LastSentAt.AddSeconds(60) > now)
             {
-                throw new Exception(
-                    "Please wait 60 seconds before requesting another code.");
+                throw new Exception("Please wait 60 seconds before requesting another code.");
             }
 
             string code = GenerateCode();
 
-            EmailVerification verification =
-                new EmailVerification();
+            EmailVerification verification = new EmailVerification();
 
             verification.Email = email;
             verification.CodeHash = HashCode(code);
@@ -108,32 +93,22 @@ namespace MiniCapstone_TechStoreApp.Services
                 IsUpsert = true
             };
 
-            await _db.EmailVerifications.ReplaceOneAsync(
-                x => x.Email == email,
-                verification,
-                options);
+            await db.EmailVerifications.ReplaceOneAsync(x => x.Email == email, verification, options);
 
             try
             {
-                await _emailService.SendVerificationCodeAsync(
-                    email,
-                    code);
+                await emailService.SendVerificationCodeAsync(email, code);
             }
             catch
             {
                 // Remove only the record created for this code.
-                await _db.EmailVerifications.DeleteOneAsync(
-                    x => x.Email == email &&
-                         x.CodeHash == verification.CodeHash);
+                await db.EmailVerifications.DeleteOneAsync(x => x.Email == email && x.CodeHash == verification.CodeHash);
 
-                throw new Exception(
-                    "Unable to send verification email. Please try again.");
+                throw new Exception("Unable to send verification email. Please try again.");
             }
         }
 
-        public async Task<bool> VerifyCodeAsync(
-            string email,
-            string enteredCode)
+        public async Task<bool> VerifyCodeAsync(string email, string enteredCode)
         {
             email = email.Trim().ToLowerInvariant();
             enteredCode = enteredCode.Trim();
@@ -148,32 +123,18 @@ namespace MiniCapstone_TechStoreApp.Services
             string enteredHash = HashCode(enteredCode);
 
             // Find and consume the code atomically.
-            FilterDefinition<EmailVerification> correctFilter =
-                Builders<EmailVerification>.Filter.And(
-                    Builders<EmailVerification>.Filter.Eq(
-                        x => x.Email, email),
-
-                    Builders<EmailVerification>.Filter.Eq(
-                        x => x.CodeHash, enteredHash),
-
-                    Builders<EmailVerification>.Filter.Gt(
-                        x => x.ExpiresAt, now),
-
-                    Builders<EmailVerification>.Filter.Eq(
-                        x => x.IsUsed, false),
-
-                    Builders<EmailVerification>.Filter.Lt(
-                        x => x.Attempts, 5)
+            FilterDefinition<EmailVerification> correctFilter = 
+                    Builders<EmailVerification>.Filter.And(
+                    Builders<EmailVerification>.Filter.Eq(x => x.Email, email),
+                    Builders<EmailVerification>.Filter.Eq(x => x.CodeHash, enteredHash),
+                    Builders<EmailVerification>.Filter.Gt(x => x.ExpiresAt, now),
+                    Builders<EmailVerification>.Filter.Eq(x => x.IsUsed, false),
+                    Builders<EmailVerification>.Filter.Lt(x => x.Attempts, 5)
                 );
 
-            UpdateDefinition<EmailVerification> consumeUpdate =
-                Builders<EmailVerification>.Update.Set(
-                    x => x.IsUsed, true);
+            UpdateDefinition<EmailVerification> consumeUpdate = Builders<EmailVerification>.Update.Set(x => x.IsUsed, true);
 
-            EmailVerification result =
-                await _db.EmailVerifications.FindOneAndUpdateAsync(
-                    correctFilter,
-                    consumeUpdate);
+            EmailVerification result = await db.EmailVerifications.FindOneAndUpdateAsync(correctFilter, consumeUpdate);
 
             if (result != null)
             {
@@ -181,28 +142,17 @@ namespace MiniCapstone_TechStoreApp.Services
             }
 
             // Incorrect code: increase the attempt count.
-            FilterDefinition<EmailVerification> wrongFilter =
-                Builders<EmailVerification>.Filter.And(
-                    Builders<EmailVerification>.Filter.Eq(
-                        x => x.Email, email),
-
-                    Builders<EmailVerification>.Filter.Gt(
-                        x => x.ExpiresAt, now),
-
-                    Builders<EmailVerification>.Filter.Eq(
-                        x => x.IsUsed, false),
-
-                    Builders<EmailVerification>.Filter.Lt(
-                        x => x.Attempts, 5)
+            FilterDefinition<EmailVerification> wrongFilter = 
+                    Builders<EmailVerification>.Filter.And(
+                    Builders<EmailVerification>.Filter.Eq(x => x.Email, email),
+                    Builders<EmailVerification>.Filter.Gt(x => x.ExpiresAt, now),
+                    Builders<EmailVerification>.Filter.Eq(x => x.IsUsed, false),
+                    Builders<EmailVerification>.Filter.Lt(x => x.Attempts, 5)
                 );
 
-            UpdateDefinition<EmailVerification> wrongUpdate =
-                Builders<EmailVerification>.Update.Inc(
-                    x => x.Attempts, 1);
+            UpdateDefinition<EmailVerification> wrongUpdate = Builders<EmailVerification>.Update.Inc(x => x.Attempts, 1);
 
-            await _db.EmailVerifications.UpdateOneAsync(
-                wrongFilter,
-                wrongUpdate);
+            await db.EmailVerifications.UpdateOneAsync(wrongFilter, wrongUpdate);
 
             return false;
         }

@@ -20,9 +20,7 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             InitializeComponent();
             this.authService = authService;
         }
-        private async void btnRegister_Click(
-            object sender,
-            EventArgs e)
+        private async void btnRegister_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string email = txtEmail.Text.Trim();
@@ -36,10 +34,10 @@ namespace MiniCapstone_TechStoreApp.FormsUI
                 return;
             }
 
+            //potentially add requirement for small and big letter and number and special character
             if (password.Length < 8)
             {
-                MessageBox.Show(
-                    "Password must contain at least 8 characters.");
+                MessageBox.Show("Password must contain at least 8 characters.");
                 return;
             }
 
@@ -49,23 +47,15 @@ namespace MiniCapstone_TechStoreApp.FormsUI
 
                 await authService.SendRegistrationCodeAsync(email);
 
-                MessageBox.Show(
-                    "Verification code sent to your email.");
+                MessageBox.Show("Verification code sent to your email.");
 
-                VerifyEmailForm verifyForm =
-                    new VerifyEmailForm(
-                        authService,
-                        username,
-                        email,
-                        password);
+                VerifyEmailForm verifyForm = new VerifyEmailForm(authService, username, email, password);
 
                 verifyForm.ShowDialog();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Registration Error");
+                MessageBox.Show(ex.Message, "Registration Error");
             }
             finally
             {

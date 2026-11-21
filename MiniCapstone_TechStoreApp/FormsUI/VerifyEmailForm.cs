@@ -7,35 +7,26 @@ namespace MiniCapstone_TechStoreApp.FormsUI
     public partial class VerifyEmailForm : Form
     {
         private readonly AuthenticatorService authService;
+        private readonly string username;
+        private readonly string email;
+        private readonly string password;
 
-        private readonly string _username;
-        private readonly string _email;
-        private readonly string _password;
-
-        public VerifyEmailForm(
-            AuthenticatorService authService,
-            string username,
-            string email,
-            string password)
+        public VerifyEmailForm(AuthenticatorService authService, string username, string email, string password)
         {
             InitializeComponent();
-
             this.authService = authService;
-            _username = username;
-            _email = email;
-            _password = password;
+            this.username = username;
+            this.email = email;
+            this.password = password;
         }
 
-        private async void btnVerify_Click(
-            object sender,
-            EventArgs e)
+        private async void btnVerify_Click(object sender, EventArgs e)
         {
             string code = txtVerificationCode.Text.Trim();
 
             if (code.Length != 6)
             {
-                MessageBox.Show(
-                    "Please enter the six-digit verification code.");
+                MessageBox.Show("Please enter the six-digit verification code.");
                 return;
             }
 
@@ -43,23 +34,16 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             {
                 btnVerify.Enabled = false;
 
-                await authService.RegisterVerifiedBuyerAsync(
-                    _username,
-                    _email,
-                    _password,
-                    code);
+                await authService.RegisterVerifiedBuyerAsync(username, email, password, code);
 
-                MessageBox.Show(
-                    "Your account has been created successfully!");
+                MessageBox.Show("Your account has been created successfully!");
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Verification Error");
+                MessageBox.Show(ex.Message, "Verification Error");
             }
             finally
             {

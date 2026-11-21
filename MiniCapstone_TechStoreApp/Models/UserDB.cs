@@ -27,6 +27,9 @@ namespace MiniCapstone_TechStoreApp.Models
         [BsonElement("Role")]
         public string Role { get; set; }
 
+        [BsonElement("IsActive")]
+        public bool IsActive { get; set; }
+
         [BsonElement("CreatedAt")]
         public DateTime CreatedAt { get; set; }
 
@@ -37,6 +40,7 @@ namespace MiniCapstone_TechStoreApp.Models
             Email = "";
             PasswordHash = "";
             Role = "Buyer";
+            IsActive = true;
             CreatedAt = DateTime.UtcNow;
         }
     }

@@ -44,45 +44,28 @@ namespace MiniCapstone_TechStoreApp.DatabaseMongoDB
             }
         }
 
-        public async Task CreateIndexesAsync()
-        {
-            // Prevent duplicate user email addresses.
-            CreateIndexOptions userEmailOptions =
-                new CreateIndexOptions { Unique = true };
+        //public async Task CreateIndexesAsync()
+        //{
+        //    // Prevent duplicate user email addresses.
+        //    CreateIndexOptions userEmailOptions = new CreateIndexOptions { Unique = true };
 
-            IndexKeysDefinition<UserDB> userEmailIndex =
-                Builders<UserDB>.IndexKeys.Ascending(x => x.Email);
+        //    IndexKeysDefinition<UserDB> userEmailIndex = Builders<UserDB>.IndexKeys.Ascending(x => x.Email);
 
-            await Users.Indexes.CreateOneAsync(
-                new CreateIndexModel<UserDB>(
-                    userEmailIndex,
-                    userEmailOptions));
+        //    await Users.Indexes.CreateOneAsync(new CreateIndexModel<UserDB>(userEmailIndex, userEmailOptions));
 
-            // One verification document per email address.
-            CreateIndexOptions verificationOptions =
-                new CreateIndexOptions { Unique = true };
+        //    // One verification document per email address.
+        //    CreateIndexOptions verificationOptions = new CreateIndexOptions { Unique = true };
 
-            IndexKeysDefinition<EmailVerification> verificationIndex =
-                Builders<EmailVerification>.IndexKeys.Ascending(
-                    x => x.Email);
+        //    IndexKeysDefinition<EmailVerification> verificationIndex = Builders<EmailVerification>.IndexKeys.Ascending(x => x.Email);
 
-            await EmailVerifications.Indexes.CreateOneAsync(
-                new CreateIndexModel<EmailVerification>(
-                    verificationIndex,
-                    verificationOptions));
+        //    await EmailVerifications.Indexes.CreateOneAsync(new CreateIndexModel<EmailVerification>(verificationIndex, verificationOptions));
 
-            // Automatically remove expired verification documents.
-            IndexKeysDefinition<EmailVerification> expiryIndex =
-                Builders<EmailVerification>.IndexKeys.Ascending(
-                    x => x.ExpiresAt);
+        //    // Automatically remove expired verification documents.
+        //    IndexKeysDefinition<EmailVerification> expiryIndex = Builders<EmailVerification>.IndexKeys.Ascending(x => x.ExpiresAt);
 
-            CreateIndexOptions expiryOptions =
-                new CreateIndexOptions { ExpireAfter = TimeSpan.Zero };
+        //    CreateIndexOptions expiryOptions = new CreateIndexOptions { ExpireAfter = TimeSpan.Zero };
 
-            await EmailVerifications.Indexes.CreateOneAsync(
-                new CreateIndexModel<EmailVerification>(
-                    expiryIndex,
-                    expiryOptions));
-        }
+        //    await EmailVerifications.Indexes.CreateOneAsync(new CreateIndexModel<EmailVerification>(expiryIndex, expiryOptions));
+        //}
     }
 }

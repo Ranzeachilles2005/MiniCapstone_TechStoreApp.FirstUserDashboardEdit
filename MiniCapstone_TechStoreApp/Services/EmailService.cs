@@ -12,64 +12,48 @@ namespace MiniCapstone_TechStoreApp.Services
 {
     public class EmailService
     {
-        private readonly string _host;
-        private readonly int _port;
-        private readonly string _email;
-        private readonly string _password;
+        private readonly string host;
+        private readonly int port;
+        private readonly string email;
+        private readonly string password;
 
         public EmailService()
         {
-            _host = Environment.GetEnvironmentVariable("SMTP_HOST");
-            _email = Environment.GetEnvironmentVariable("SMTP_EMAIL");
-            _password = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
+            host = Environment.GetEnvironmentVariable("SMTP_HOST");
+            email = Environment.GetEnvironmentVariable("SMTP_EMAIL");
+            password = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
+            string portValue = Environment.GetEnvironmentVariable("SMTP_PORT");
 
-            string portValue =
-                Environment.GetEnvironmentVariable("SMTP_PORT");
-
-            if (string.IsNullOrWhiteSpace(_host) ||
-                string.IsNullOrWhiteSpace(_email) ||
-                string.IsNullOrWhiteSpace(_password) ||
+            if (string.IsNullOrWhiteSpace(host) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(password) ||
                 string.IsNullOrWhiteSpace(portValue))
             {
                 throw new Exception("SMTP configuration is incomplete.");
             }
 
-            _port = int.Parse(portValue);
+            port = int.Parse(portValue);
         }
 
-        public async Task SendVerificationCodeAsync(
-            string recipient,
-            string code)
+        public async Task SendVerificationCodeAsync(string recipient, string code)
         {
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(
-                new MailboxAddress("Tech Store", _email));
-
-            message.To.Add(
-                new MailboxAddress("", recipient));
-
+            message.From.Add(new MailboxAddress("Tech Store", email));
+            message.To.Add(new MailboxAddress("", recipient));
             message.Subject = "Tech Store Email Verification";
-
             message.Body = new TextPart("plain")
             {
-                Text =
-                    "Your Tech Store verification code is: " + code +
+                Text = "Your Tech Store verification code is: " + code + 
                     "\n\nThis code expires in 5 minutes." +
                     "\nIf you did not request this code, ignore this email."
             };
 
             using (SmtpClient smtp = new SmtpClient())
             {
-                await smtp.ConnectAsync(
-                    _host,
-                    _port,
-                    SecureSocketOptions.StartTls);
-
-                await smtp.AuthenticateAsync(_email, _password);
-
+                await smtp.ConnectAsync(host, port, SecureSocketOptions.StartTls);
+                await smtp.AuthenticateAsync(email, password);
                 await smtp.SendAsync(message);
-
                 await smtp.DisconnectAsync(true);
             }
         }

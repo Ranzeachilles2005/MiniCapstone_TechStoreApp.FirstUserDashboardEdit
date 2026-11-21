@@ -25,26 +25,19 @@ namespace MiniCapstone_TechStoreApp
                 MongoDBConnector db = new MongoDBConnector();
 
                 // Create indexes before showing the application.
-                db.CreateIndexesAsync().GetAwaiter().GetResult();
+                //db.CreateIndexesAsync().GetAwaiter().GetResult();
 
                 EmailService emailService = new EmailService();
 
-                EmailVerificationService verificationService =
-                    new EmailVerificationService(db, emailService);
+                EmailVerificationService verificationService = new EmailVerificationService(db, emailService);
 
-                AuthenticatorService authService =
-                    new AuthenticatorService(db, verificationService);
+                AuthenticatorService authService = new AuthenticatorService(db, verificationService);
 
-                Application.Run(
-                    new RegistrationForm(authService));
+                Application.Run(new RegistrationForm(authService));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Startup Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
