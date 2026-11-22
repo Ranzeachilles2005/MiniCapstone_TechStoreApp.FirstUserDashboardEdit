@@ -34,6 +34,9 @@ namespace MiniCapstone_TechStoreApp
                 AuthenticatorService authService = new AuthenticatorService(db, verificationService);
 
                 Application.Run(new RegistrationForm(authService));
+
+                //Test Form UI
+                //Application.Run(new VerifyEmailForm(authService, "a", "b", "c"));
             }
             catch (Exception ex)
             {

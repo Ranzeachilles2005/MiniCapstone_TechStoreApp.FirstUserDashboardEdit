@@ -18,6 +18,21 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             this.username = username;
             this.email = email;
             this.password = password;
+
+            CenterVerifyEmailPanel();
+            this.Resize += VerifyEmailForm_Resize;
+        }
+
+        private void CenterVerifyEmailPanel()
+        {
+            int panelWidth = pnlVerifyEmail.Width;
+            int panelHeight = pnlVerifyEmail.Height;
+            FormLayoutHelper.CenterPanel(this, pnlVerifyEmail, panelWidth, panelHeight);
+        }
+
+        private void VerifyEmailForm_Resize(object sender, EventArgs e)
+        {
+            CenterVerifyEmailPanel();
         }
 
         private async void btnVerify_Click(object sender, EventArgs e)
