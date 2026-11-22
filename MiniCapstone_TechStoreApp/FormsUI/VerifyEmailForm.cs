@@ -55,7 +55,12 @@ namespace MiniCapstone_TechStoreApp.FormsUI
                 MessageBox.Show("Your account has been created successfully!");
 
                 this.DialogResult = DialogResult.OK;
-                this.Close();
+
+                LoginForm loginForm = new LoginForm(authService);
+
+                loginForm.FormClosed += (s, args) => this.Close();
+
+                loginForm.Show();
             }
             catch (Exception ex)
             {

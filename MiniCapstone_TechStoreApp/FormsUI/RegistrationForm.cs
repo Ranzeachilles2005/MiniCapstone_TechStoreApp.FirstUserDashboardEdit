@@ -94,7 +94,7 @@ namespace MiniCapstone_TechStoreApp.FormsUI
         private void linkLblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
-            LoginForm loginForm = new LoginForm();
+            LoginForm loginForm = new LoginForm(authService);
             loginForm.ShowDialog();
         }
     }

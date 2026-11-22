@@ -45,7 +45,7 @@
             this.txtVerificationCode.EdgeColor = System.Drawing.Color.White;
             this.txtVerificationCode.Font = new System.Drawing.Font("Tahoma", 11F);
             this.txtVerificationCode.ForeColor = System.Drawing.Color.DimGray;
-            this.txtVerificationCode.Location = new System.Drawing.Point(114, 206);
+            this.txtVerificationCode.Location = new System.Drawing.Point(88, 157);
             this.txtVerificationCode.MaxLength = 32767;
             this.txtVerificationCode.Multiline = false;
             this.txtVerificationCode.Name = "txtVerificationCode";
@@ -65,7 +65,7 @@
             this.btnVerify.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnVerify.InactiveColorA = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.btnVerify.InactiveColorB = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(237)))), ((int)(((byte)(236)))));
-            this.btnVerify.Location = new System.Drawing.Point(114, 313);
+            this.btnVerify.Location = new System.Drawing.Point(88, 264);
             this.btnVerify.Name = "btnVerify";
             this.btnVerify.PressedColorA = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnVerify.PressedColorB = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
@@ -83,7 +83,7 @@
             this.dungeonLabel1.BackColor = System.Drawing.Color.Transparent;
             this.dungeonLabel1.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dungeonLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(77)))));
-            this.dungeonLabel1.Location = new System.Drawing.Point(67, 39);
+            this.dungeonLabel1.Location = new System.Drawing.Point(40, 44);
             this.dungeonLabel1.Name = "dungeonLabel1";
             this.dungeonLabel1.Size = new System.Drawing.Size(263, 20);
             this.dungeonLabel1.TabIndex = 2;
@@ -95,7 +95,7 @@
             this.dungeonLabel2.BackColor = System.Drawing.Color.Transparent;
             this.dungeonLabel2.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dungeonLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(77)))));
-            this.dungeonLabel2.Location = new System.Drawing.Point(137, 172);
+            this.dungeonLabel2.Location = new System.Drawing.Point(111, 123);
             this.dungeonLabel2.Name = "dungeonLabel2";
             this.dungeonLabel2.Size = new System.Drawing.Size(123, 20);
             this.dungeonLabel2.TabIndex = 3;
@@ -132,10 +132,10 @@
             this.pnlVerifyEmail.Controls.Add(this.dungeonLabel2);
             this.pnlVerifyEmail.Controls.Add(this.txtVerificationCode);
             this.pnlVerifyEmail.EdgeColor = System.Drawing.Color.White;
-            this.pnlVerifyEmail.Location = new System.Drawing.Point(202, 12);
+            this.pnlVerifyEmail.Location = new System.Drawing.Point(234, 48);
             this.pnlVerifyEmail.Name = "pnlVerifyEmail";
             this.pnlVerifyEmail.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlVerifyEmail.Size = new System.Drawing.Size(396, 427);
+            this.pnlVerifyEmail.Size = new System.Drawing.Size(343, 356);
             this.pnlVerifyEmail.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.pnlVerifyEmail.TabIndex = 10;
             this.pnlVerifyEmail.Text = "panel1";
