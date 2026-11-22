@@ -16,11 +16,20 @@ namespace MiniCapstone_TechStoreApp
         public LoginForm()
         {
             InitializeComponent();
+            CenterLoginPanel();
+            this.Resize += RegistrationForm_Resize;
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
+        private void CenterLoginPanel()
         {
+            int panelWidth = pnlLogin.Width;
+            int panelHeight = pnlLogin.Height;
+            FormLayoutHelper.CenterPanel(this, pnlLogin, panelWidth, panelHeight);
+        }
 
+        private void RegistrationForm_Resize(object sender, EventArgs e)
+        {
+            CenterLoginPanel();
         }
     }
 }

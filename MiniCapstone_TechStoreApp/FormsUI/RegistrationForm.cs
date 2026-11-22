@@ -56,6 +56,19 @@ namespace MiniCapstone_TechStoreApp.FormsUI
                 return;
             }
 
+            if (await authService.UsernameExistsAsync(username))
+            {
+                MessageBox.Show(
+                    "Username is already taken. Please choose another.",
+                    "Registration",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                txtUsername.Focus();
+                return;
+            }
+
             try
             {
                 btnRegister.Enabled = false;
