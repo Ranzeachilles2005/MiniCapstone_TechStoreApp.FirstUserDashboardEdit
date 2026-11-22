@@ -216,7 +216,7 @@
             this.pnlRegister.Controls.Add(this.dungeonLabel5);
             this.pnlRegister.Controls.Add(this.dungeonLabel3);
             this.pnlRegister.Controls.Add(this.linkLblLogin);
-            this.pnlRegister.EdgeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pnlRegister.EdgeColor = System.Drawing.Color.White;
             this.pnlRegister.Location = new System.Drawing.Point(242, 29);
             this.pnlRegister.Name = "pnlRegister";
             this.pnlRegister.Padding = new System.Windows.Forms.Padding(5);

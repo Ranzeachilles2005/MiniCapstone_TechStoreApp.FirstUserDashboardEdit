@@ -131,7 +131,7 @@
             this.pnlVerifyEmail.Controls.Add(this.btnVerify);
             this.pnlVerifyEmail.Controls.Add(this.dungeonLabel2);
             this.pnlVerifyEmail.Controls.Add(this.txtVerificationCode);
-            this.pnlVerifyEmail.EdgeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pnlVerifyEmail.EdgeColor = System.Drawing.Color.White;
             this.pnlVerifyEmail.Location = new System.Drawing.Point(202, 12);
             this.pnlVerifyEmail.Name = "pnlVerifyEmail";
             this.pnlVerifyEmail.Padding = new System.Windows.Forms.Padding(5);
@@ -156,6 +156,7 @@
             this.Text = "themeForm1";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Shown += new System.EventHandler(this.VerifyEmailForm_Shown);
             this.Resize += new System.EventHandler(this.VerifyEmailForm_Resize);
             this.airForm1.ResumeLayout(false);
             this.pnlVerifyEmail.ResumeLayout(false);

@@ -21,6 +21,7 @@ namespace MiniCapstone_TechStoreApp.FormsUI
 
             CenterVerifyEmailPanel();
             this.Resize += VerifyEmailForm_Resize;
+            this.Shown += VerifyEmailForm_Shown;
         }
 
         private void CenterVerifyEmailPanel()
@@ -64,6 +65,11 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             {
                 btnVerify.Enabled = true;
             }
+        }
+
+        private void VerifyEmailForm_Shown(object sender, EventArgs e)
+        {
+            txtVerificationCode.Focus();
         }
     }
 }
