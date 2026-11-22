@@ -18,6 +18,22 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             this.username = username;
             this.email = email;
             this.password = password;
+
+            CenterVerifyEmailPanel();
+            this.Resize += VerifyEmailForm_Resize;
+            this.Shown += VerifyEmailForm_Shown;
+        }
+
+        private void CenterVerifyEmailPanel()
+        {
+            int panelWidth = pnlVerifyEmail.Width;
+            int panelHeight = pnlVerifyEmail.Height;
+            FormLayoutHelper.CenterPanel(this, pnlVerifyEmail, panelWidth, panelHeight);
+        }
+
+        private void VerifyEmailForm_Resize(object sender, EventArgs e)
+        {
+            CenterVerifyEmailPanel();
         }
 
         private async void btnVerify_Click(object sender, EventArgs e)
@@ -39,7 +55,12 @@ namespace MiniCapstone_TechStoreApp.FormsUI
                 MessageBox.Show("Your account has been created successfully!");
 
                 this.DialogResult = DialogResult.OK;
-                this.Close();
+
+                LoginForm loginForm = new LoginForm(authService);
+
+                loginForm.FormClosed += (s, args) => this.Close();
+
+                loginForm.Show();
             }
             catch (Exception ex)
             {
@@ -49,6 +70,11 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             {
                 btnVerify.Enabled = true;
             }
+        }
+
+        private void VerifyEmailForm_Shown(object sender, EventArgs e)
+        {
+            txtVerificationCode.Focus();
         }
     }
 }

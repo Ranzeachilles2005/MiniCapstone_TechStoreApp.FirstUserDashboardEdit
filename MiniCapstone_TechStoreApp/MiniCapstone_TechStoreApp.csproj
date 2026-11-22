@@ -196,11 +196,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormsUI\AdminDashboard.cs">
+    <Compile Include="FormsUI\AdminDashboardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUI\AdminDashboard.Designer.cs">
-      <DependentUpon>AdminDashboard.cs</DependentUpon>
+    <Compile Include="FormsUI\AdminDashboardForm.Designer.cs">
+      <DependentUpon>AdminDashboardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsUI\LoginForm.cs">
       <SubType>Form</SubType>
@@ -215,12 +215,20 @@
     <Compile Include="FormsUI\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormsUI\UserDashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormsUI\UserDashboardForm.Designer.cs">
+      <DependentUpon>UserDashboardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormsUI\VerifyEmailForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormsUI\VerifyEmailForm.Designer.cs">
       <DependentUpon>VerifyEmailForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\FormLayoutHelper.cs" />
+    <Compile Include="Helper\UserSession.cs" />
     <Compile Include="Models\EmailVerfication.cs" />
     <Compile Include="Models\UserDB.cs" />
     <Compile Include="Program.cs" />
@@ -260,9 +268,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>

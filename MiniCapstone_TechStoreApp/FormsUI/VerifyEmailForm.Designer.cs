@@ -33,7 +33,9 @@
             this.dungeonLabel1 = new ReaLTaiizor.Controls.DungeonLabel();
             this.dungeonLabel2 = new ReaLTaiizor.Controls.DungeonLabel();
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
+            this.pnlVerifyEmail = new ReaLTaiizor.Controls.Panel();
             this.airForm1.SuspendLayout();
+            this.pnlVerifyEmail.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtVerificationCode
@@ -43,12 +45,12 @@
             this.txtVerificationCode.EdgeColor = System.Drawing.Color.White;
             this.txtVerificationCode.Font = new System.Drawing.Font("Tahoma", 11F);
             this.txtVerificationCode.ForeColor = System.Drawing.Color.DimGray;
-            this.txtVerificationCode.Location = new System.Drawing.Point(335, 223);
+            this.txtVerificationCode.Location = new System.Drawing.Point(88, 157);
             this.txtVerificationCode.MaxLength = 32767;
             this.txtVerificationCode.Multiline = false;
             this.txtVerificationCode.Name = "txtVerificationCode";
             this.txtVerificationCode.ReadOnly = false;
-            this.txtVerificationCode.Size = new System.Drawing.Size(135, 28);
+            this.txtVerificationCode.Size = new System.Drawing.Size(168, 28);
             this.txtVerificationCode.TabIndex = 0;
             this.txtVerificationCode.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtVerificationCode.UseSystemPasswordChar = false;
@@ -63,13 +65,13 @@
             this.btnVerify.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnVerify.InactiveColorA = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.btnVerify.InactiveColorB = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(237)))), ((int)(((byte)(236)))));
-            this.btnVerify.Location = new System.Drawing.Point(335, 366);
+            this.btnVerify.Location = new System.Drawing.Point(88, 264);
             this.btnVerify.Name = "btnVerify";
             this.btnVerify.PressedColorA = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.btnVerify.PressedColorB = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(237)))));
             this.btnVerify.PressedContourColorA = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(167)))), ((int)(((byte)(167)))));
             this.btnVerify.PressedContourColorB = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(167)))), ((int)(((byte)(167)))));
-            this.btnVerify.Size = new System.Drawing.Size(126, 33);
+            this.btnVerify.Size = new System.Drawing.Size(168, 48);
             this.btnVerify.TabIndex = 1;
             this.btnVerify.Text = "Verify Code";
             this.btnVerify.TextAlignment = System.Drawing.StringAlignment.Center;
@@ -81,7 +83,7 @@
             this.dungeonLabel1.BackColor = System.Drawing.Color.Transparent;
             this.dungeonLabel1.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dungeonLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(77)))));
-            this.dungeonLabel1.Location = new System.Drawing.Point(269, 51);
+            this.dungeonLabel1.Location = new System.Drawing.Point(40, 44);
             this.dungeonLabel1.Name = "dungeonLabel1";
             this.dungeonLabel1.Size = new System.Drawing.Size(263, 20);
             this.dungeonLabel1.TabIndex = 2;
@@ -93,7 +95,7 @@
             this.dungeonLabel2.BackColor = System.Drawing.Color.Transparent;
             this.dungeonLabel2.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dungeonLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(77)))));
-            this.dungeonLabel2.Location = new System.Drawing.Point(331, 200);
+            this.dungeonLabel2.Location = new System.Drawing.Point(111, 123);
             this.dungeonLabel2.Name = "dungeonLabel2";
             this.dungeonLabel2.Size = new System.Drawing.Size(123, 20);
             this.dungeonLabel2.TabIndex = 3;
@@ -103,10 +105,7 @@
             // 
             this.airForm1.BackColor = System.Drawing.Color.White;
             this.airForm1.BorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.airForm1.Controls.Add(this.dungeonLabel2);
-            this.airForm1.Controls.Add(this.dungeonLabel1);
-            this.airForm1.Controls.Add(this.btnVerify);
-            this.airForm1.Controls.Add(this.txtVerificationCode);
+            this.airForm1.Controls.Add(this.pnlVerifyEmail);
             this.airForm1.Customization = "AAAA/1paWv9ycnL/";
             this.airForm1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.airForm1.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -125,6 +124,22 @@
             this.airForm1.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.airForm1.Transparent = false;
             // 
+            // pnlVerifyEmail
+            // 
+            this.pnlVerifyEmail.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.pnlVerifyEmail.Controls.Add(this.dungeonLabel1);
+            this.pnlVerifyEmail.Controls.Add(this.btnVerify);
+            this.pnlVerifyEmail.Controls.Add(this.dungeonLabel2);
+            this.pnlVerifyEmail.Controls.Add(this.txtVerificationCode);
+            this.pnlVerifyEmail.EdgeColor = System.Drawing.Color.White;
+            this.pnlVerifyEmail.Location = new System.Drawing.Point(234, 48);
+            this.pnlVerifyEmail.Name = "pnlVerifyEmail";
+            this.pnlVerifyEmail.Padding = new System.Windows.Forms.Padding(5);
+            this.pnlVerifyEmail.Size = new System.Drawing.Size(343, 356);
+            this.pnlVerifyEmail.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.pnlVerifyEmail.TabIndex = 10;
+            this.pnlVerifyEmail.Text = "panel1";
+            // 
             // VerifyEmailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -140,8 +155,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "themeForm1";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Shown += new System.EventHandler(this.VerifyEmailForm_Shown);
+            this.Resize += new System.EventHandler(this.VerifyEmailForm_Resize);
             this.airForm1.ResumeLayout(false);
-            this.airForm1.PerformLayout();
+            this.pnlVerifyEmail.ResumeLayout(false);
+            this.pnlVerifyEmail.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -153,5 +172,6 @@
         private ReaLTaiizor.Controls.DungeonLabel dungeonLabel1;
         private ReaLTaiizor.Controls.DungeonLabel dungeonLabel2;
         private ReaLTaiizor.Forms.AirForm airForm1;
+        private ReaLTaiizor.Controls.Panel pnlVerifyEmail;
     }
 }

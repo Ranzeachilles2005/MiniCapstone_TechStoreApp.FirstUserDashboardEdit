@@ -38,6 +38,17 @@ namespace MiniCapstone_TechStoreApp.Services
             return count > 0;
         }
 
+
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            username = username.Trim();
+
+            long count = await db.Users.CountDocumentsAsync(x => x.Username.ToLower() == username.ToLower());
+
+            return count > 0;
+        }
+
+
         public async Task SendRegistrationCodeAsync(string email)
         {
             email = NormalizeEmail(email);
@@ -63,6 +74,11 @@ namespace MiniCapstone_TechStoreApp.Services
             if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
             {
                 throw new Exception("Password must contain at least 8 characters.");
+            }
+
+            if (await UsernameExistsAsync(username))
+            {
+                throw new Exception("This username is already taken.");
             }
 
             if (await EmailExistsAsync(email))
@@ -101,22 +117,32 @@ namespace MiniCapstone_TechStoreApp.Services
             }
         }
 
-        public async Task<UserDB> LoginAsync(string email, string password)
+        public async Task<UserDB> LoginAsync(string username, string password)
         {
-            email = NormalizeEmail(email);
+            username = username.Trim();
 
-            UserDB user = await db.Users.Find(x => x.Email == email).FirstOrDefaultAsync();
-
-            if (user == null)
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                return null;
+                throw new Exception("Please enter your username and password.");
             }
 
-            bool validPassword = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            var filter = Builders<UserDB>.Filter.Regex(x => x.Username, new MongoDB.Bson.BsonRegularExpression("^" + System.Text.RegularExpressions.Regex.Escape(username) + "$","i"));
 
-            if (!validPassword)
+            UserDB user = await db.Users.Find(filter).FirstOrDefaultAsync();
+
+            if (user == null)
+                throw new Exception("Invalid username or password.");
+
+            bool passwordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+
+            if (!passwordValid)
             {
-                return null;
+                throw new Exception("Invalid username or password.");
+            }
+
+            if (!user.IsActive)
+            {
+                throw new Exception("Your account has been deactivated. Please contact the administrator.");
             }
 
             return user;

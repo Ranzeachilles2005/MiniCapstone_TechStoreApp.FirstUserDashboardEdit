@@ -19,7 +19,22 @@ namespace MiniCapstone_TechStoreApp.FormsUI
         {
             InitializeComponent();
             this.authService = authService;
+            CenterRegisterPanel();
+            this.Resize += RegistrationForm_Resize;
         }
+
+        private void CenterRegisterPanel()
+        {
+            int panelWidth = pnlRegister.Width;
+            int panelHeight = pnlRegister.Height;
+            FormLayoutHelper.CenterPanel(this, pnlRegister, panelWidth, panelHeight);
+        }
+
+        private void RegistrationForm_Resize(object sender, EventArgs e)
+        {
+            CenterRegisterPanel();
+        }
+
         private async void btnRegister_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -38,6 +53,19 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             if (password.Length < 8)
             {
                 MessageBox.Show("Password must contain at least 8 characters.");
+                return;
+            }
+
+            if (await authService.UsernameExistsAsync(username))
+            {
+                MessageBox.Show(
+                    "Username is already taken. Please choose another.",
+                    "Registration",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                txtUsername.Focus();
                 return;
             }
 
@@ -61,6 +89,13 @@ namespace MiniCapstone_TechStoreApp.FormsUI
             {
                 btnRegister.Enabled = true;
             }
+        }
+
+        private void linkLblLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            LoginForm loginForm = new LoginForm(authService);
+            loginForm.ShowDialog();
         }
     }
 }
