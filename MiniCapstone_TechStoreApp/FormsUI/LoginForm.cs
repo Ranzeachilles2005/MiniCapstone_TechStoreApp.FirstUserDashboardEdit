@@ -104,5 +104,10 @@ namespace MiniCapstone_TechStoreApp
                 btnLogin.Enabled = true;
             }
         }
+
+        private void linkLblRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }
