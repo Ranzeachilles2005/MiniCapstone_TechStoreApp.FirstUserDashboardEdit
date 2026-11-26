@@ -38,7 +38,7 @@ namespace MiniCapstone_TechStoreApp
                 //Test Form UI
                 //Application.Run(new VerifyEmailForm(authService, "a", "b", "c"));
                 Application.Run(new UserDashboardForm());
-            }
+            }//
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
