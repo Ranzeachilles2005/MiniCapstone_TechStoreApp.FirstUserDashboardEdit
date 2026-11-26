@@ -37,7 +37,7 @@ namespace MiniCapstone_TechStoreApp
 
                 //Test Form UI
                 //Application.Run(new VerifyEmailForm(authService, "a", "b", "c"));
-                Application.Run(new LoginForm(authService));
+                Application.Run(new UserDashboardForm());
             }
             catch (Exception ex)
             {

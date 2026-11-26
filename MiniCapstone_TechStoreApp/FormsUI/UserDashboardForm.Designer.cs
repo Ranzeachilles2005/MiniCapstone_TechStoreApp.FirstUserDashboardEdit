@@ -314,7 +314,7 @@
             this.flpProducts.Location = new System.Drawing.Point(243, 48);
             this.flpProducts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpProducts.Name = "flpProducts";
-            this.flpProducts.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.flpProducts.Padding = new System.Windows.Forms.Padding(12);
             this.flpProducts.Size = new System.Drawing.Size(1061, 602);
             this.flpProducts.TabIndex = 2;
             // 
